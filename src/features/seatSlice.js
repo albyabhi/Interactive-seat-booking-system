@@ -17,25 +17,32 @@ const seatSlice = createSlice({
   reducers: {
     selectSeats: (state, action) => {
       const { seat, row } = action.payload;
-
+    
       if (state.selectedSeats.includes(seat)) {
-        state.selectedSeats = state.selectedSeats.filter((s) => s !== seat); // Remove seat if already selected
+       
+        state.selectedSeats = state.selectedSeats.filter((s) => s !== seat);
+        const seatPrice =
+          row === "A"
+            ? seatPrices.platinum
+            : row === "B" || row === "C" || row === "D"
+            ? seatPrices.gold
+            : row === "E" || row === "F"
+            ? seatPrices.silver
+            : 0;
+        state.totalCost -= seatPrice; 
       } else {
         state.selectedSeats.push(seat);
+        const seatPrice =
+          row === "A"
+            ? seatPrices.platinum
+            : row === "B" || row === "C" || row === "D"
+            ? seatPrices.gold
+            : row === "E" || row === "F"
+            ? seatPrices.silver
+            : 0;
+        state.totalCost += seatPrice;  
       }
-
-      // seat price based on row type
-      const seatPrice =
-        row === "A"
-          ? seatPrices.platinum
-          : row === "B" || row === "D"
-          ? seatPrices.gold
-          : row === "E" || row === "F"
-          ? seatPrices.silver
-          : 0;
-
-      state.totalCost = state.selectedSeats.length * seatPrice; // Calculate total cost
-
+    
       state.error = "";
     },
 
