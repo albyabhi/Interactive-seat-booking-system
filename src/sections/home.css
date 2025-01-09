@@ -36,7 +36,7 @@
 
 .seat-button:hover {
   transform: scale(1.1);
-  background-color: #45a049;
+  background-color: #2196f3;
 }
 
 .seat-button:active {
